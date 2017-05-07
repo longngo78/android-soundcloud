@@ -11,4 +11,4 @@
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
     tools:context=".PlaylistFragment"
-    tools:listitem="@layout/track_item"/>
+    tools:listitem="@layout/list_item_track"/>

@@ -1,9 +1,9 @@
 package com.longo.soundcloud;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +11,9 @@ import android.view.View;
 
 import org.json.JSONObject;
 
-public class MainActivity extends AppCompatActivity implements PlaylistFragment.OnListFragmentInteractionListener {
+public class MainActivity extends BaseActivity implements PlaylistFragment.Listener {
+
+    public static final String EXTRA_TRACK_INDEX = "EXTRA_TRACK_INDEX";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,9 @@ public class MainActivity extends AppCompatActivity implements PlaylistFragment.
     }
 
     @Override
-    public void onListFragmentInteraction(final JSONObject item) {
-
+    public void onItemClick(final int index, final JSONObject item) {
+        final Intent intent = new Intent(this, TrackActivity.class);
+        intent.putExtra(EXTRA_TRACK_INDEX, index);
+        startActivity(intent);
     }
 }

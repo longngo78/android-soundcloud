@@ -1,7 +1,10 @@
-package com.longo.soundcloud.loaders;
+package com.longo.soundcloud.services;
 
 import android.util.Log;
 
+import com.longo.soundcloud.loaders.UrlLoader;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,6 +28,8 @@ public class SoundCloudService implements UrlLoader.Listener {
     private UrlLoader mUrlLoader = new UrlLoader(this);
     private Listener mListener;
 
+    private JSONObject mSelectedPlaylist;
+
     public SoundCloudService(Listener listener) {
         mListener = listener;
     }
@@ -44,8 +49,23 @@ public class SoundCloudService implements UrlLoader.Listener {
         mUrlLoader.execute(url);
     }
 
+    public JSONObject getSelectedPlaylist() {
+        return mSelectedPlaylist;
+    }
+
+    public JSONArray getSelectedTracks() {
+        try {
+            return mSelectedPlaylist.getJSONArray("tracks");
+        } catch (JSONException e) {
+            // TODO
+            e.printStackTrace();
+
+            return null;
+        }
+    }
+
     @Override
-    public void onLoad(final String result) {
+    public void onLoad(final UrlLoader loader, final String result) {
         JSONObject json = null;
         try {
             json = new JSONObject(result);
@@ -53,6 +73,8 @@ public class SoundCloudService implements UrlLoader.Listener {
         } catch (JSONException e) {
             Log.e(TAG, "", e);
         }
+
+        mSelectedPlaylist = json;
 
         // callback
         if (mListener != null) {

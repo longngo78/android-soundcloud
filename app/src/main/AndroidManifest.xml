@@ -2,8 +2,7 @@
 <manifest package="com.longo.soundcloud"
           xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -11,6 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".SoundcloudApp"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
@@ -21,6 +21,10 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".TrackActivity"
+            android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>
 

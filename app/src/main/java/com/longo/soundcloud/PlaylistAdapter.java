@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.longo.soundcloud.PlaylistFragment.OnListFragmentInteractionListener;
+import com.longo.soundcloud.PlaylistFragment.Listener;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -16,10 +16,10 @@ import org.json.JSONObject;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
-    private final OnListFragmentInteractionListener mListener;
+    private final Listener mListener;
     private JSONArray mItems;
 
-    public PlaylistAdapter(OnListFragmentInteractionListener listener) {
+    public PlaylistAdapter(Listener listener) {
         mListener = listener;
     }
 
@@ -32,7 +32,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.track_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_track, parent, false);
         return new ViewHolder(view);
     }
 
@@ -42,7 +42,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (mItems == null) return;
 
         try {
-            holder.setItem(mItems.getJSONObject(position));
+            holder.setItem(position, mItems.getJSONObject(position));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -53,7 +53,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
                 if (null != mListener) {
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onItemClick(holder.mItemIndex, holder.mItem);
                 }
             }
         });
@@ -65,6 +65,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private int mItemIndex = -1;
         private JSONObject mItem;
 
         private final View mView;
@@ -82,7 +83,8 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             mTitleView = (TextView) view.findViewById(R.id.track_title);
         }
 
-        public ViewHolder setItem(final JSONObject item) throws JSONException {
+        public ViewHolder setItem(final int itemIndex, final JSONObject item) throws JSONException {
+            mItemIndex = itemIndex;
             mItem = item;
 
             //mIdView.setText(item.getString("id"));

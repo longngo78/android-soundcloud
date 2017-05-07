@@ -79,11 +79,11 @@ public class UrlLoader extends AsyncTask<String, Integer, String> {
 
         // callback
         if (mListener != null) {
-            mListener.onLoad(result);
+            mListener.onLoad(this, result);
         }
     }
 
     public interface Listener {
-        void onLoad(final String result);
+        void onLoad(final UrlLoader loader, final String result);
     }
 }
