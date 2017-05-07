@@ -11,11 +11,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.longo.soundcloud.services.TrackVO;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import static com.longo.soundcloud.R.id.track_image;
 
 public class TrackActivity extends BaseActivity {
 
@@ -44,7 +43,7 @@ public class TrackActivity extends BaseActivity {
      */
     public static class TrackFragment extends Fragment {
         private int mTrackIndex;
-        private JSONObject mTrackItem;
+        private TrackVO mTrackItem;
 
         public TrackFragment() {
         }
@@ -56,13 +55,7 @@ public class TrackActivity extends BaseActivity {
         public static TrackFragment newInstance(int trackIndex) {
             final TrackFragment fragment = new TrackFragment();
             fragment.mTrackIndex = trackIndex;
-
-            try {
-                fragment.mTrackItem = SoundcloudApp.getInstance().getSoundCloudService().getSelectedTracks().getJSONObject(trackIndex);
-            } catch (JSONException e) {
-                // TODO
-                e.printStackTrace();
-            }
+            fragment.mTrackItem = SoundcloudApp.getInstance().getSoundCloudService().getSelectedPlaylist().tracks.get(trackIndex);
 
             return fragment;
         }
@@ -72,21 +65,21 @@ public class TrackActivity extends BaseActivity {
             final View rootView = inflater.inflate(R.layout.fragment_track, container, false);
             if (mTrackItem == null) return rootView;
 
-            try {
-                // label
-                final TextView textView = (TextView) rootView.findViewById(R.id.title);
-                textView.setText(mTrackItem.getString("title"));
+            // label
+            final TextView textView = (TextView) rootView.findViewById(R.id.title);
+            textView.setText(mTrackItem.title);
 
-                // art
-                final ImageView trackImage = (ImageView) rootView.findViewById(R.id.track_image);
-                Picasso.with(getContext()).load(mTrackItem.getString("artwork_url").replace("large", "t500x500")).into(trackImage);
-
-                final ImageView waveImage = (ImageView) rootView.findViewById(R.id.wave_image);
-                Picasso.with(getContext()).load(mTrackItem.getString("waveform_url")).into(waveImage);
-            } catch (JSONException e) {
-                // TODO
-                e.printStackTrace();
+            // art
+            final ImageView trackImage = (ImageView) rootView.findViewById(track_image);
+            if (mTrackItem.artwork_url != null) {
+                trackImage.setVisibility(View.VISIBLE);
+                Picasso.with(getContext()).load(mTrackItem.artwork_url.replace("large", "t500x500")).into(trackImage);
+            } else {
+                trackImage.setVisibility(View.GONE);
             }
+
+            final ImageView waveImage = (ImageView) rootView.findViewById(R.id.wave_image);
+            Picasso.with(getContext()).load(mTrackItem.waveform_url).into(waveImage);
 
             return rootView;
         }
@@ -107,8 +100,7 @@ public class TrackActivity extends BaseActivity {
 
         @Override
         public int getCount() {
-            final JSONArray tracks = mApp.getSoundCloudService().getSelectedTracks();
-            return tracks == null ? 0 : tracks.length();
+            return mApp.getSoundCloudService().getSelectedPlaylist().tracks.size();
         }
 
         @Override

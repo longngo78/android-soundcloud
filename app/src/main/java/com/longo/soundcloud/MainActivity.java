@@ -9,7 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.json.JSONObject;
+import com.longo.soundcloud.services.TrackVO;
 
 public class MainActivity extends BaseActivity implements PlaylistFragment.Listener {
 
@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity implements PlaylistFragment.Liste
     }
 
     @Override
-    public void onItemClick(final int index, final JSONObject item) {
+    public void onItemClick(final int index, final TrackVO track) {
         final Intent intent = new Intent(this, TrackActivity.class);
         intent.putExtra(EXTRA_TRACK_INDEX, index);
         startActivity(intent);

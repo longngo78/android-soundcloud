@@ -8,22 +8,23 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.longo.soundcloud.PlaylistFragment.Listener;
+import com.longo.soundcloud.services.TrackVO;
 import com.squareup.picasso.Picasso;
 
-import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
+
+import java.util.List;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHolder> {
 
     private final Listener mListener;
-    private JSONArray mItems;
+    private List<TrackVO> mItems;
 
     public PlaylistAdapter(Listener listener) {
         mListener = listener;
     }
 
-    public PlaylistAdapter setItems(final JSONArray items) {
+    public PlaylistAdapter setItems(final List<TrackVO> items) {
         mItems = items;
 
         notifyDataSetChanged();
@@ -42,7 +43,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
         if (mItems == null) return;
 
         try {
-            holder.setItem(position, mItems.getJSONObject(position));
+            holder.setItem(position, mItems.get(position));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -61,12 +62,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return mItems != null ? mItems.length() : 0;
+        return mItems != null ? mItems.size() : 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private int mItemIndex = -1;
-        private JSONObject mItem;
+        private TrackVO mItem;
 
         private final View mView;
         //private final TextView mIdView;
@@ -83,13 +84,13 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.ViewHo
             mTitleView = (TextView) view.findViewById(R.id.track_title);
         }
 
-        public ViewHolder setItem(final int itemIndex, final JSONObject item) throws JSONException {
+        public ViewHolder setItem(final int itemIndex, final TrackVO item) throws JSONException {
             mItemIndex = itemIndex;
             mItem = item;
 
             //mIdView.setText(item.getString("id"));
-            Picasso.with(mView.getContext()).load(item.getString("artwork_url")).into(mTrackImage);
-            mTitleView.setText(item.getString("title"));
+            Picasso.with(mView.getContext()).load(item.artwork_url).into(mTrackImage);
+            mTitleView.setText(item.title);
 
             return this;
         }

@@ -1,12 +1,7 @@
 package com.longo.soundcloud.services;
 
-import android.util.Log;
-
+import com.google.gson.Gson;
 import com.longo.soundcloud.loaders.UrlLoader;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 /**
  * Created by longngo on 5/5/17.
@@ -28,7 +23,8 @@ public class SoundCloudService implements UrlLoader.Listener {
     private UrlLoader mUrlLoader = new UrlLoader(this);
     private Listener mListener;
 
-    private JSONObject mSelectedPlaylist;
+    private Gson mGson = new Gson();
+    private PlaylistVO mSelectedPlaylist;
 
     public SoundCloudService(Listener listener) {
         mListener = listener;
@@ -49,40 +45,21 @@ public class SoundCloudService implements UrlLoader.Listener {
         mUrlLoader.execute(url);
     }
 
-    public JSONObject getSelectedPlaylist() {
+    public PlaylistVO getSelectedPlaylist() {
         return mSelectedPlaylist;
-    }
-
-    public JSONArray getSelectedTracks() {
-        try {
-            return mSelectedPlaylist.getJSONArray("tracks");
-        } catch (JSONException e) {
-            // TODO
-            e.printStackTrace();
-
-            return null;
-        }
     }
 
     @Override
     public void onLoad(final UrlLoader loader, final String result) {
-        JSONObject json = null;
-        try {
-            json = new JSONObject(result);
-
-        } catch (JSONException e) {
-            Log.e(TAG, "", e);
-        }
-
-        mSelectedPlaylist = json;
+        mSelectedPlaylist = mGson.fromJson(result, PlaylistVO.class);
 
         // callback
         if (mListener != null) {
-            mListener.onLoadPlaylist(json);
+            mListener.onLoadPlaylist(mSelectedPlaylist);
         }
     }
 
     public interface Listener {
-        void onLoadPlaylist(final JSONObject json);
+        void onLoadPlaylist(final PlaylistVO playlist);
     }
 }

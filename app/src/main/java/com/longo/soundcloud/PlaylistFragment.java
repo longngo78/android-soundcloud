@@ -9,10 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.longo.soundcloud.services.PlaylistVO;
 import com.longo.soundcloud.services.SoundCloudService;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.longo.soundcloud.services.TrackVO;
 
 /**
  * A fragment representing a list of Items.
@@ -80,7 +79,7 @@ public class PlaylistFragment extends Fragment implements SoundCloudService.List
     }
 
     public interface Listener {
-        void onItemClick(final int index, final JSONObject item);
+        void onItemClick(final int index, final TrackVO track);
     }
 
     public void loadPlaylist() {
@@ -88,19 +87,13 @@ public class PlaylistFragment extends Fragment implements SoundCloudService.List
     }
 
     @Override
-    public void onLoadPlaylist(final JSONObject json) {
-        if (json == null) {
+    public void onLoadPlaylist(final PlaylistVO playlist) {
+        if (playlist == null) {
             // TODO handle error!
             return;
         }
 
-        try {
-            //Log.d(TAG, json.getString("title"));
-
-            // set some items
-            mAdapter.setItems(json.getJSONArray("tracks"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        // set some items
+        mAdapter.setItems(playlist.tracks);
     }
 }

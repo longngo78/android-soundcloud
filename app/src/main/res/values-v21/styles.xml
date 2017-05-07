@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Track.Title" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:textSize">25sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:strokeColor">@color/colorAccent</item>
+        <item name="android:strokeWidth">2</item>
+        <item name="android:strokeAlpha">1</item>
+    </style>
+</resources>
