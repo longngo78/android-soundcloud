@@ -1,10 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Track.Title" parent="ThemeOverlay.AppCompat.Light">
-        <item name="android:textSize">25sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:strokeColor">@color/colorAccent</item>
-        <item name="android:strokeWidth">2</item>
-        <item name="android:strokeAlpha">1</item>
+    <!-- Base application theme. -->
+    <style name="Theme.AppTheme" parent="android:Theme.Material.Light">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="android:Theme.Material.NoActionBar">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.ToolbarOverlay" parent="android:Theme.Material.Light">
+        <item name="android:background">@android:color/transparent</item>
     </style>
 </resources>

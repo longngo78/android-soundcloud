@@ -2,18 +2,26 @@ package com.longo.soundcloud;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 
+import com.longo.soundcloud.services.PlaylistVO;
+import com.longo.soundcloud.services.SoundCloudService;
 import com.longo.soundcloud.services.TrackVO;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends BaseActivity implements PlaylistFragment.Listener {
 
     public static final String EXTRA_TRACK_INDEX = "EXTRA_TRACK_INDEX";
+    private CollapsingToolbarLayout mToolbarLayout;
+    private Toolbar mToolbar;
+    private FloatingActionButton mFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +29,13 @@ public class MainActivity extends BaseActivity implements PlaylistFragment.Liste
 
         setContentView(R.layout.activity_main);
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        mFab = (FloatingActionButton) findViewById(R.id.fab);
+        mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Hello there!", Snackbar.LENGTH_LONG).setAction("Action", null).show();
@@ -55,6 +65,15 @@ public class MainActivity extends BaseActivity implements PlaylistFragment.Liste
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onLoadPlaylist(final PlaylistVO playlist) {
+        mToolbarLayout.setTitle(playlist.title);
+
+        final ImageView playlistImage = (ImageView) findViewById(R.id.playlist_image);
+        final String url = playlist.artwork_url != null ? playlist.artwork_url : playlist.tracks.get(0).artwork_url;
+        Picasso.with(this).load(SoundCloudService.getArtUrl500(url)).into(playlistImage);
     }
 
     @Override

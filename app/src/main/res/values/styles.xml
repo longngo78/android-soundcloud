@@ -2,10 +2,12 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
-        <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <item name="android:textViewStyle">@style/Text.Default</item>
+        <item name="android:buttonStyle">@style/Button.Default</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
@@ -13,13 +15,26 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark"/>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="AppTheme.ToolbarOverlay" parent="Theme.AppCompat.NoActionBar">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 
-    <style name="Track.Title" parent="ThemeOverlay.AppCompat.Light">
+    <style name="Text.Default" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">20sp</item>
+    </style>
+
+    <style name="Text.Track.Title" parent="Text.Default">
+        <item name="android:textColorHighlight">@color/grey</item>
         <item name="android:textSize">25sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Button.Default" parent="android:style/Widget.Button">
+        <item name="android:background">@drawable/list_selector</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
 </resources>

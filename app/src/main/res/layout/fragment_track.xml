@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/title"
-        style="@style/Track.Title"
+        style="@style/Text.Track.Title"
         android:layout_marginTop="@dimen/text_margin"
         android:gravity="center_horizontal"
         android:textAlignment="center"

@@ -59,6 +59,10 @@ public class SoundCloudService implements UrlLoader.Listener {
         }
     }
 
+    public static String getArtUrl500(String largeUrl) {
+        return largeUrl == null ? "" : largeUrl.replace("large", "t500x500");
+    }
+
     public interface Listener {
         void onLoadPlaylist(final PlaylistVO playlist);
     }

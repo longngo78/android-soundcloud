@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.longo.soundcloud.services.SoundCloudService;
 import com.longo.soundcloud.services.TrackVO;
 import com.squareup.picasso.Picasso;
 
@@ -73,7 +74,7 @@ public class TrackActivity extends BaseActivity {
             final ImageView trackImage = (ImageView) rootView.findViewById(track_image);
             if (mTrackItem.artwork_url != null) {
                 trackImage.setVisibility(View.VISIBLE);
-                Picasso.with(getContext()).load(mTrackItem.artwork_url.replace("large", "t500x500")).into(trackImage);
+                Picasso.with(getContext()).load(SoundCloudService.getArtUrl500(mTrackItem.artwork_url)).into(trackImage);
             } else {
                 trackImage.setVisibility(View.GONE);
             }

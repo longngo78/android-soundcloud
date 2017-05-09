@@ -6,7 +6,7 @@
               android:orientation="horizontal"
               android:clickable="true"
               android:focusable="true"
-              android:focusableInTouchMode="true">
+              android:focusableInTouchMode="false">
 
     <!--<TextView
         android:id="@+id/track_id"

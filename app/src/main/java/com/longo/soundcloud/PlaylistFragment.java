@@ -79,6 +79,7 @@ public class PlaylistFragment extends Fragment implements SoundCloudService.List
     }
 
     public interface Listener {
+        void onLoadPlaylist(final PlaylistVO playlist);
         void onItemClick(final int index, final TrackVO track);
     }
 
@@ -95,5 +96,10 @@ public class PlaylistFragment extends Fragment implements SoundCloudService.List
 
         // set some items
         mAdapter.setItems(playlist.tracks);
+
+        // callback
+        if (mListener != null) {
+            mListener.onLoadPlaylist(playlist);
+        }
     }
 }
